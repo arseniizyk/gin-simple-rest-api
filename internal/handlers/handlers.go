@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/arseniizyk/internal/models"
 	"github.com/arseniizyk/internal/storage"
 	"github.com/arseniizyk/internal/utils"
 	"github.com/gin-gonic/gin"
@@ -24,7 +25,7 @@ func New(s storage.Storage) *Handler {
 }
 
 func (h *Handler) CreateEmployee(c *gin.Context) {
-	var employee storage.Employee
+	var employee models.Employee
 
 	if err := c.BindJSON(&employee); err != nil {
 		log.Println("failed to bind employee", err.Error())
@@ -38,6 +39,10 @@ func (h *Handler) CreateEmployee(c *gin.Context) {
 	h.s.Insert(&employee)
 
 	c.JSON(http.StatusCreated, gin.H{"id": employee.ID})
+}
+
+func (h *Handler) ListEmployees(c *gin.Context) {
+	c.JSON(http.StatusOK, h.s.List())
 }
 
 func (h *Handler) GetEmployee(c *gin.Context) {
@@ -80,7 +85,7 @@ func (h *Handler) UpdateEmployee(c *gin.Context) {
 		})
 	}
 
-	var employee storage.Employee
+	var employee models.Employee
 
 	if err := c.BindJSON(&employee); err != nil {
 		log.Println("failed to bind employee", err.Error())

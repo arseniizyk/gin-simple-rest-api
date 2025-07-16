@@ -6,6 +6,7 @@ import (
 	"github.com/arseniizyk/internal/storage"
 )
 
+
 func main() {
 	s := storage.NewMemoryStorage()
 	h := handlers.New(s)

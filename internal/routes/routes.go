@@ -9,6 +9,7 @@ func Setup(h *handlers.Handler) *gin.Engine {
 	r := gin.Default()
 
 	api := r.Group("/v1")
+	api.GET("/employee/", h.ListEmployees)
 	api.POST("/employee", h.CreateEmployee)
 	api.GET("/employee/:id", h.GetEmployee)
 	api.PUT("/employee/:id", h.UpdateEmployee)
@@ -17,6 +18,7 @@ func Setup(h *handlers.Handler) *gin.Engine {
 	return r
 }
 
+// GET /employee/ - получение всех зарегистрированных сотрудников
 // POST /employee/ - cоздание сотрудника
 // GET /employee/<id> - получение информации о сотруднике
 // PUT /employee/<id> - редактирование информации о сотруднике
