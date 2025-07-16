@@ -36,13 +36,23 @@ func (h *Handler) CreateEmployee(c *gin.Context) {
 		return
 	}
 
-	h.s.Insert(&employee)
+	h.s.Insert(c.Request.Context(), &employee)
 
 	c.JSON(http.StatusCreated, gin.H{"id": employee.ID})
 }
 
 func (h *Handler) ListEmployees(c *gin.Context) {
-	c.JSON(http.StatusOK, h.s.List())
+	employees, err := h.s.List(c.Request.Context())
+	if err != nil {
+		log.Println("failed to get list of employees", err.Error())
+		c.JSON(http.StatusInternalServerError, ErrorResponse{
+			Error:   err.Error(),
+			Message: "failed to get list",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, employees)
 }
 
 func (h *Handler) GetEmployee(c *gin.Context) {
@@ -55,7 +65,7 @@ func (h *Handler) GetEmployee(c *gin.Context) {
 		return
 	}
 
-	employee, err := h.s.Get(id)
+	employee, err := h.s.Get(c.Request.Context(), id)
 	if err != nil {
 		if errors.Is(err, storage.ErrNotExists) {
 			log.Printf("employee with id %d not found\n", id)
@@ -96,11 +106,12 @@ func (h *Handler) UpdateEmployee(c *gin.Context) {
 		return
 	}
 
-	if err := h.s.Update(id, employee); err != nil {
+	if err := h.s.Update(c.Request.Context(), id, &employee); err != nil {
 		c.JSON(http.StatusNotFound, ErrorResponse{
 			Error:   err.Error(),
 			Message: "employee not found",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"id": id})
@@ -115,7 +126,7 @@ func (h *Handler) DeleteEmployee(c *gin.Context) {
 		})
 	}
 
-	if err := h.s.Delete(id); err != nil {
+	if err := h.s.Delete(c.Request.Context(), id); err != nil {
 		c.JSON(http.StatusNotFound, ErrorResponse{
 			Error:   err.Error(),
 			Message: "employee not found",
