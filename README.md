@@ -7,6 +7,10 @@
   - `PUT /api/v1/employees/:id` - Update employee by ID
   - `DELETE /api/v1/employees/:id` - Delete employee by ID
 
+## Usage:
+  - Create .env file with fields from [.env.example](.env.example)
+  - Run by `make run` from root
+
 ## Built with:
   - [Gin](https://gin-gonic.com/)
   - [PostgreSQL](https://www.postgresql.org/)
