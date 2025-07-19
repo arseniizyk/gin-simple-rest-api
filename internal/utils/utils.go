@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ParseID(c *gin.Context) (int, error) {
-	idStr := c.Param("id")
+func ParseID(c *gin.Params) (int, error) {
+	idStr := c.ByName("id")
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
