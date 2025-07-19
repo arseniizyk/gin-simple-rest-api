@@ -8,7 +8,7 @@
   - `DELETE /api/v1/employees/:id` - Delete employee by ID
 
 ## Usage:
-  - Create .env file with fields from [.env.example](.env.example)
+  - Create .env file in root with fields from [.env.example](.env.example)
   - Run by `make run` from root
 
 ## Built with:
