@@ -5,11 +5,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GET /employee/ - получение всех зарегистрированных сотрудников
-// POST /employee/ - cоздание сотрудника
-// GET /employee/<id> - получение информации о сотруднике
-// PUT /employee/<id> - редактирование информации о сотруднике
-// DELETE /employee/<id> - удаление сотрудника
+// GET /employees/ - получение всех зарегистрированных сотрудников
+// POST /employees/ - cоздание сотрудника
+// GET /employees/{id} - получение информации о сотруднике
+// PUT /employees/{id} - редактирование информации о сотруднике
+// DELETE /employees/{id} - удаление сотрудника
 func RegisterEmployeesEndpoints(r *gin.RouterGroup, uc employees.EmployeeUsecase) {
 	h := New(uc)
 

@@ -1,0 +1,223 @@
+openapi: 3.1.1
+
+info:
+    title: Employees API
+    description: API Specification for Employees API
+    version: 0.0.1
+
+tags:
+    - name: employees
+      description: Manage employees
+    - name: department
+      description: Manage employees' department
+
+paths:
+    /api/v1/employees:
+        get:
+            tags:
+                - employees
+            summary: List employees
+            operationId: listEmployees
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Employee'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+        post:
+            tags:
+                - employees
+            summary: Create employee
+            operationId: createEmployee
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/EmployeeInput'
+            responses:
+                '201':
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                '400':
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+    /api/v1/employees/{id}:
+        get:
+            tags:
+                - employees
+            summary: Get employee
+            operationId: getEmployee
+            parameters:
+                - $ref: '#/components/parameters/EmployeeId'
+
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Employee'
+
+                '400':
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+
+                '404':
+                    description: Not Found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+
+                '500':
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+        put:
+            tags:
+                - employees
+            summary: Update employee
+            operationId: updateEmployee
+            parameters:
+                - $ref: '#/components/parameters/EmployeeId'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/EmployeeInput'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+
+                '404':
+                    description: Not Found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+
+                '400':
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+        delete:
+            tags:
+                - employees
+            summary: Delete employee
+            operationId: deleteEmployee
+            parameters:
+                - $ref: '#/components/parameters/EmployeeId'
+
+            responses:
+                '200':
+                    description: Success
+
+                '404':
+                    description: Not Found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+
+                '400':
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+components:
+    parameters:
+        EmployeeId:
+            name: id
+            in: path
+            required: true
+            description: Employee ID
+            schema:
+                type: integer
+
+    schemas:
+        Employee:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: Unique employee ID
+                name:
+                    type: string
+                    description: Full name
+                sex:
+                    type: string
+                    description: Sex
+                age:
+                    type: integer
+                    description: Age
+                salary:
+                    type: number
+                    format: float
+                    description: Employee salary in float format
+
+        EmployeeInput:
+            type: object
+            required: [name, sex, age, salary]
+            properties:
+                name:
+                    type: string
+                    description: Full name
+                sex:
+                    type: string
+                    description: Sex
+                age:
+                    type: integer
+                    description: Age
+                salary:
+                    type: number
+                    format: float
+                    description: Employee salary in float format
+
+        ErrorResponse:
+            type: object
+            properties:
+                error:
+                    type: string
+                message:
+                    type: string
