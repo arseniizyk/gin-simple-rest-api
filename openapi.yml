@@ -4,6 +4,13 @@ info:
     title: Employees API
     description: API Specification for Employees API
     version: 0.0.1
+    license:
+        name: MIT
+        url: https://opensource.org/licenses/MIT
+
+servers:
+    - url: http://localhost:8080
+      description: Local server
 
 tags:
     - name: employees
@@ -27,6 +34,12 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/Employee'
+                '400':
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
                 '500':
                     description: Internal Server Error
                     content:
@@ -221,3 +234,5 @@ components:
                     type: string
                 message:
                     type: string
+
+security: []
