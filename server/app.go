@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/arseniizyk/internal/employees"
-	"github.com/arseniizyk/internal/pg"
+	pg "github.com/arseniizyk/internal/postgres"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
